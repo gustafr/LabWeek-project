@@ -17,4 +17,15 @@ class Product
    validates_uniqueness_of :barcode, message: "Barcode already exists."
    validates_presence_of :sugar_content_gram, message: "Please fill in sugar content."
 
+  def self.rank(product)
+   result = all(:sugar_content_gram.lt => product.sugar_content_gram).count+1
+    product.update!(ranking: result)
+  end
+
+
+  #Rankning can be seen as how many Products have suger_content_gram that is lower than current record + 1
+  #Need to add another method that updates ranking for all products.
+
+
+
 end
