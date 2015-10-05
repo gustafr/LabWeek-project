@@ -23,6 +23,13 @@ class Love < Sinatra::Base
     erb :index
   end
 
+  get '/fill_out' do
+    erb :fill_out
+  end
+
+  post '/fill_out' do
+  end
+
   # start the server if ruby file executed directly
   run! if app_file == $0
 end
