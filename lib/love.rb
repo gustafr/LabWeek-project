@@ -20,6 +20,25 @@ class Love < Sinatra::Base
   DataMapper::Model.raise_on_save_failure = true
   DataMapper.finalize
 
+  helpers do
+    def protected!
+      return if authorized?
+      headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
+      halt 401, "You are not authorized\n"
+    end
+
+    def authorized?
+      @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+      @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['love', 'shack']
+    end
+  end
+
+  # Testing the authentication. TODO: Delete this later.
+  get '/protected' do
+    protected!
+    "You're in, baby!"
+  end
+
   get '/' do
     erb :index
   end
