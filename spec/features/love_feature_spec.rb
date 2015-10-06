@@ -10,21 +10,45 @@ feature 'application setup' do
   end
 end
 
+feature 'basic HTTP authorization' do
+
+    def basic_auth(user, password)
+      encoded_login = ["#{user}:#{password}"].pack("m*")
+      page.driver.header 'Authorization', "Basic #{encoded_login}"
+    end
+
+    scenario 'unauthorized visitors denied access to protected routes' do
+      visit '/protected'
+      expect(page.status_code).to eq 401
+    end
+
+    scenario 'users submitting wrong credentials denied access to protected routes' do
+      basic_auth('ajja bajja', 'ajja bajja')
+      visit '/protected'
+      expect(page.status_code).to eq 401
+    end
+
+    scenario 'users submitting correct credentials allowed access to protected routes' do
+      basic_auth('love', 'shack')
+      visit '/protected'
+      expect(page.status_code).to eq 200
+    end
+  end
 
 feature "get fill out form" do
   before do
     visit "/admin"
   end
 
-    scenario "creates fill out form" do
-      expect(page).to have_selector "form[action='/fill_out']"
-      expect(page).to have_selector "form[method='post']"
-      expect(page).to have_selector "input[name='brand']"
-      expect(page).to have_selector "input[name='product_name']"
-      expect(page).to have_selector "input[name='category']"
-      expect(page).to have_selector "input[name='barcode']"
-      expect(page).to have_selector "input[name='sugar_content_gram']"
-    end
+  scenario "creates fill out form" do
+    expect(page).to have_selector "form[action='/fill_out']"
+    expect(page).to have_selector "form[method='post']"
+    expect(page).to have_selector "input[name='brand']"
+    expect(page).to have_selector "input[name='product_name']"
+    expect(page).to have_selector "input[name='category']"
+    expect(page).to have_selector "input[name='barcode']"
+    expect(page).to have_selector "input[name='sugar_content_gram']"
+  end
 
   scenario 'admin user can add a new product' do
     visit "/admin"

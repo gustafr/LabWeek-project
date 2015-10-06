@@ -20,19 +20,41 @@ class Love < Sinatra::Base
   DataMapper::Model.raise_on_save_failure = true
   DataMapper.finalize
 
+  helpers do
+    def protected!
+      return if authorized?
+      headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
+      halt 401, "You are not authorized\n"
+    end
+
+    def authorized?
+      @auth ||= Rack::Auth::Basic::Request.new(request.env)
+      @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['love', 'shack']
+    end
+  end
+
+  # Testing the authentication. TODO: Delete this later.
+  get '/protected' do
+    protected!
+    "You're in, baby!"
+  end
+
   get '/' do
     erb :index
   end
 
   get '/admin' do
+    # protected!
     redirect 'admin/fill_out'
   end
 
   get '/admin/fill_out' do
+    # protected!
     erb :'admin/fill_out'
   end
 
   post '/admin/fill_out' do
+    # protected!
     begin
       Product.create(brand: params[:brand], product_name: params[:product_name], category: params[:category], barcode: params[:barcode], sugar_content_gram: params[:sugar_content_gram])
       redirect '/admin/product_listing'
@@ -42,14 +64,16 @@ class Love < Sinatra::Base
   end
 
   get '/admin/product_listing' do
+    # protected!
     @product=Product.all
     erb :'admin/product_listing'
   end
 
   get '/admin/delete/:id' do
+    # protected!
     product = Product.get(params[:id])
-      product.destroy!
-      redirect '/admin/product_listing'
+    product.destroy!
+    redirect '/admin/product_listing'
   end
 
   # start the server if ruby file executed directly
