@@ -33,6 +33,17 @@ class Love < Sinatra::Base
   end
 
   post '/admin/fill_out' do
+    begin
+      Product.create(brand: params[:brand], product_name: params[:product_name], category: params[:category], barcode: params[:barcode], sugar_content_gram: params[:sugar_content_gram])
+      redirect '/admin/product_listing'
+    rescue
+      redirect 'admin/fill_out'
+    end
+  end
+
+  get '/admin/product_listing' do
+    @product=Product.all
+    erb :'admin/product_listing'
   end
 
   # start the server if ruby file executed directly

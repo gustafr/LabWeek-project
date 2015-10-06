@@ -1,0 +1,33 @@
+<main>
+  <div class="row">
+    <div class="large-12 columns">
+      <div class="panel">
+        <h4>Product listing</h4>
+        <% if @product.empty? %>
+            <div class="row">
+              <div class="large-8 columns">
+                <div class="callout panel">
+                  <p>No links in the system</p>
+                </div>
+              </div>
+            </div>
+        <% else %>
+            <% @product.reverse_each do |product| %>
+                <div class="row">
+                  <div class="large-8 columns">
+                    <div class="callout panel">
+                      <p><%= product[:brand] %></p>
+                      <p><%= product[:product_name] %></p>
+                      <p>
+                        <a class="small button" href="/delete/<%= product[:id] %>">Delete</a>
+                        <a class="small button" href="/update_product/<%= product[:id] %>">Update</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+            <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</main>
