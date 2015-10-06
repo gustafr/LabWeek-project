@@ -24,11 +24,15 @@ class Love < Sinatra::Base
     erb :index
   end
 
-  get '/fill_out' do
-    erb :fill_out
+  get '/admin' do
+    redirect 'admin/fill_out'
   end
 
-  post '/fill_out' do
+  get '/admin/fill_out' do
+    erb :'admin/fill_out'
+  end
+
+  post '/admin/fill_out' do
   end
 
   # start the server if ruby file executed directly

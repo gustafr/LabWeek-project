@@ -11,7 +11,7 @@ end
 
 feature "get fill out form" do
   before do
-    visit "/fill_out"
+    visit "/admin/fill_out"
   end
 
     scenario "creates fill out form" do
