@@ -46,6 +46,12 @@ class Love < Sinatra::Base
     erb :'admin/product_listing'
   end
 
+  get 'admin/delete/:id' do
+    product = Product.get(params[:id])
+      product.destroy!
+      redirect '/admin/product_listing'
+  end
+
   # start the server if ruby file executed directly
   run! if app_file == $0
 end

@@ -39,4 +39,28 @@ feature "get fill out form" do
     expect(page).to have_content 'Lingongrova'
   end
 
+  scenario 'admin can view the product listing' do
+    visit "/admin"
+    add_product_web
+    expect(page.status_code).to eq 200
+    expect(page.current_path).to eq '/admin/product_listing'
+    expect(page).to have_content 'Brand'
+    expect(page).to have_content 'Product name'
+    expect(page).to have_content 'Category'
+    expect(page).to have_content 'Barcode'
+    expect(page).to have_content 'Sugar/100g'
+    expect(page).to have_content 'Ranking'
+    expect(page).to have_content 'Delete'
+    expect(page).to have_content 'Update'
+  end
+
+  scenario 'admin can delete a product' do
+    visit "/admin"
+    add_product_web
+    click_on 'Delete'
+    expect(page.status_code).to eq 200
+    expect(page.current_path).to eq '/admin/product_listing'
+    expect(page).to have_content 'No links in the system'
+  end
+
 end
