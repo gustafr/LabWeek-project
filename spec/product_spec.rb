@@ -1,4 +1,6 @@
 require 'product'
+require 'product_helper_spec'
+require 'byebug'
 
 describe Product do
 
@@ -16,5 +18,22 @@ describe Product do
   it { is_expected.to validate_presence_of :barcode }
   it { is_expected.to validate_uniqueness_of :barcode }
   it { is_expected.to validate_presence_of :sugar_content_gram }
+
+  it 'a product can be created' do
+    create_products
+    expect(Product.get(1).product_name).to eq "Lingongrova"
+  end
+
+  it 'have no ranking when created' do
+    create_products
+    expect(Product.get(1).ranking).to eq nil
+  end
+
+  it 'running update rankning method sets ranking' do
+    create_products
+    Product.update_ranking
+    expect(Product.get(1).brand).to eq "Pågen"
+  end
+
 
 end
