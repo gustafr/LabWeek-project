@@ -28,7 +28,7 @@ class Love < Sinatra::Base
     end
 
     def authorized?
-      @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+      @auth ||= Rack::Auth::Basic::Request.new(request.env)
       @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['love', 'shack']
     end
   end
@@ -44,14 +44,17 @@ class Love < Sinatra::Base
   end
 
   get '/admin' do
+    # protected!
     redirect 'admin/fill_out'
   end
 
   get '/admin/fill_out' do
+    # protected!
     erb :'admin/fill_out'
   end
 
   post '/admin/fill_out' do
+    # protected!
     begin
       Product.create(brand: params[:brand], product_name: params[:product_name], category: params[:category], barcode: params[:barcode], sugar_content_gram: params[:sugar_content_gram])
       redirect '/admin/product_listing'
@@ -61,14 +64,16 @@ class Love < Sinatra::Base
   end
 
   get '/admin/product_listing' do
+    # protected!
     @product=Product.all
     erb :'admin/product_listing'
   end
 
-  get 'admin/delete/:id' do
+  get '/admin/delete/:id' do
+    # protected!
     product = Product.get(params[:id])
-      product.destroy!
-      redirect '/admin/product_listing'
+    product.destroy!
+    redirect '/admin/product_listing'
   end
 
   # start the server if ruby file executed directly
