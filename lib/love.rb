@@ -46,7 +46,7 @@ class Love < Sinatra::Base
     erb :'admin/product_listing'
   end
 
-  get 'admin/delete/:id' do
+  get '/admin/delete/:id' do
     product = Product.get(params[:id])
       product.destroy!
       redirect '/admin/product_listing'
