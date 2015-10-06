@@ -44,17 +44,17 @@ class Love < Sinatra::Base
   end
 
   get '/admin' do
-    # protected!
+    protected!
     redirect 'admin/fill_out'
   end
 
   get '/admin/fill_out' do
-    # protected!
-    erb :'admin/fill_out'
+    protected!
+    erb :'admin/fill_out', layout: :'admin/admin_layout'
   end
 
   post '/admin/fill_out' do
-    # protected!
+    protected!
     begin
       Product.create(brand: params[:brand], product_name: params[:product_name], category: params[:category], barcode: params[:barcode], sugar_content_gram: params[:sugar_content_gram])
       redirect '/admin/product_listing'
@@ -64,16 +64,39 @@ class Love < Sinatra::Base
   end
 
   get '/admin/product_listing' do
-    # protected!
+    protected!
     @product=Product.all
-    erb :'admin/product_listing'
+    erb :'admin/product_listing', layout: :'admin/admin_layout'
   end
 
   get '/admin/delete/:id' do
-    # protected!
+    protected!
     product = Product.get(params[:id])
     product.destroy!
     redirect '/admin/product_listing'
+  end
+
+  get '/admin/update_ranking' do
+    protected!
+    Product.update_ranking
+    redirect '/admin/product_listing'
+  end
+
+  get '/admin/update_product/:id' do
+    protected!
+    @product = Product.get(params[:id])
+    erb :'admin/update_product', layout: :'admin/admin_layout'
+  end
+
+  post '/admin/update_product/:id' do
+    protected!
+    product = Product.get(params[:id])
+    begin
+      product.update(brand: params[:brand], product_name: params[:product_name], category: params[:category], barcode: params[:barcode], sugar_content_gram: params[:sugar_content_gram])
+      redirect '/admin/product_listing'
+    rescue
+      redirect '/admin/update_product/:id'
+    end
   end
 
   # start the server if ruby file executed directly

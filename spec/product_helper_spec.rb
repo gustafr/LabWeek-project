@@ -11,5 +11,10 @@ def add_product_web
   fill_in 'category', with: 'Mjukt bröd'
   fill_in 'barcode', with: '1256256256526'
   fill_in 'sugar_content_gram', with: '8.5'
-  click_button 'Create product'
+  click_button 'Add product'
+end
+
+def basic_auth(user, password)
+  encoded_login = ["#{user}:#{password}"].pack("m*")
+  page.driver.header 'Authorization', "Basic #{encoded_login}"
 end

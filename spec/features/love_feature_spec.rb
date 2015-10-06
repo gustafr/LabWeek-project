@@ -12,31 +12,27 @@ end
 
 feature 'basic HTTP authorization' do
 
-    def basic_auth(user, password)
-      encoded_login = ["#{user}:#{password}"].pack("m*")
-      page.driver.header 'Authorization', "Basic #{encoded_login}"
-    end
-
-    scenario 'unauthorized visitors denied access to protected routes' do
-      visit '/protected'
-      expect(page.status_code).to eq 401
-    end
-
-    scenario 'users submitting wrong credentials denied access to protected routes' do
-      basic_auth('ajja bajja', 'ajja bajja')
-      visit '/protected'
-      expect(page.status_code).to eq 401
-    end
-
-    scenario 'users submitting correct credentials allowed access to protected routes' do
-      basic_auth('love', 'shack')
-      visit '/protected'
-      expect(page.status_code).to eq 200
-    end
+  scenario 'unauthorized visitors denied access to protected routes' do
+    visit '/protected'
+    expect(page.status_code).to eq 401
   end
+
+  scenario 'users submitting wrong credentials denied access to protected routes' do
+    basic_auth('ajja bajja', 'ajja bajja')
+    visit '/protected'
+    expect(page.status_code).to eq 401
+  end
+
+  scenario 'users submitting correct credentials allowed access to protected routes' do
+    basic_auth('love', 'shack')
+    visit '/protected'
+    expect(page.status_code).to eq 200
+  end
+end
 
 feature "get fill out form" do
   before do
+    basic_auth('love', 'shack')
     visit "/admin"
   end
 
@@ -57,7 +53,7 @@ feature "get fill out form" do
     fill_in 'category', with: 'Mjukt bröd'
     fill_in 'barcode', with: '1256256256526'
     fill_in 'sugar_content_gram', with: '8.5'
-    click_button 'Create product'
+    click_button 'Add product'
     expect(page.status_code).to eq 200
     expect(page.current_path).to eq '/admin/product_listing'
     expect(page).to have_content 'Lingongrova'
@@ -85,6 +81,14 @@ feature "get fill out form" do
     expect(page.status_code).to eq 200
     expect(page.current_path).to eq '/admin/product_listing'
     expect(page).to have_content 'No links in the system'
+  end
+
+  scenario 'show update form' do
+    visit "/admin"
+    add_product_web
+    click_on 'Update'
+    expect(page.status_code).to eq 200
+    expect(page).to have_content 'Update product'
   end
 
 end
