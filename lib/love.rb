@@ -4,6 +4,7 @@ require 'data_mapper'
 require 'dm-migrations'
 require 'bcrypt'
 require 'byebug'
+require './lib/product.rb'
 
 class Love < Sinatra::Base
   set :views, proc { File.join(root, '..', 'views') }
@@ -14,10 +15,10 @@ class Love < Sinatra::Base
   env = ENV['RACK_ENV'] || "development"
 
   DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost/love_#{env}")
-  DataMapper.finalize
   DataMapper.auto_upgrade!
   #DataMapper.auto_migrate!
   DataMapper::Model.raise_on_save_failure = true
+  DataMapper.finalize
 
   get '/' do
     erb :index
