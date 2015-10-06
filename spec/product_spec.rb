@@ -21,18 +21,18 @@ describe Product do
 
   it 'a product can be created' do
     create_products
-    expect(Product.get(1).product_name).to eq "Lingongrova"
+    expect(Product.first.product_name).to eq "Lingongrova"
   end
 
   it 'have no ranking when created' do
     create_products
-    expect(Product.get(1).ranking).to eq nil
+    expect(Product.first.ranking).to eq nil
   end
 
   it 'running update rankning method sets ranking' do
     create_products
     Product.update_ranking
-    expect(Product.get(1).brand).to eq "Pågen"
+    expect(Product.first.ranking).to eq 2
   end
 
 
