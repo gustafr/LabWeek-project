@@ -1,6 +1,6 @@
-require 'brand'
+require 'category'
 
-describe Brand do
+describe Category do
 
   it { is_expected.to have_property :id }
   it { is_expected.to have_property :name }
@@ -8,9 +8,9 @@ describe Brand do
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_uniqueness_of :name }
 
-  it 'a brand can be created' do
-    create_brand
-    expect(Brand.first.name).to eq "Pågen"
+  it 'a category can be created' do
+    create_category
+    expect(Category.first.name).to eq "Bröd"
   end
 
 end
