@@ -46,7 +46,7 @@ feature "get fill out form" do
     expect(page).to have_selector "input[name='sugar_content_gram']"
   end
 
-  scenario 'admin user can add a new product' do
+  xscenario 'admin user can add a new product' do
     visit "/admin"
     fill_in 'brand', with: 'Pågen'
     fill_in 'product_name', with: 'Lingongrova'
@@ -59,7 +59,7 @@ feature "get fill out form" do
     expect(page).to have_content 'Lingongrova'
   end
 
-  scenario 'admin can view the product listing' do
+  xscenario 'admin can view the product listing' do
     visit "/admin"
     add_product_web
     expect(page.status_code).to eq 200
@@ -74,7 +74,7 @@ feature "get fill out form" do
     expect(page).to have_content 'Update'
   end
 
-  scenario 'admin can delete a product' do
+  xscenario 'admin can delete a product' do
     visit "/admin"
     add_product_web
     click_on 'Delete'
@@ -83,7 +83,7 @@ feature "get fill out form" do
     expect(page).to have_content 'No links in the system'
   end
 
-  scenario 'show update form' do
+  xscenario 'show update form' do
     visit "/admin"
     add_product_web
     click_on 'Update'
