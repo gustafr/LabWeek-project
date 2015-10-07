@@ -14,5 +14,20 @@ def create_brand
 end
 
 def create_category
- c = Category.create(:name => "Bröd")
+  c = Category.create(:name => "Bröd")
+end
+
+def add_product_web
+  fill_in 'brand', with: 'Pågen'
+  fill_in 'product_name', with: 'Lingongrova'
+  fill_in 'category', with: 'Mjukt bröd'
+  fill_in 'barcode', with: '1256256256526'
+  fill_in 'sugar_content_gram', with: '8.5'
+  click_button 'Add product'
+end
+
+
+def basic_auth(user, password)
+  encoded_login = ["#{user}:#{password}"].pack("m*")
+  page.driver.header 'Authorization', "Basic #{encoded_login}"
 end
