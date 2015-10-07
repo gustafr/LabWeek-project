@@ -13,9 +13,11 @@
 
 <body>
 
-
 <div class="row">
   <div class="large-12 columns">
+
+    <%= erb :'/admin/admin_header' %>
+
     <div class="row">
       <div class="medium-12 large-12 columns">
         <% if flash %>
@@ -37,19 +39,19 @@
 <script src="/js/vendor/jquery.js"></script>
 <script src="/js/foundation.min.js"></script>
 <script>
-  $(document).ready(function () {
-    var flash = $('#flash-container');
-    if (flash.length > 0) {
-      window.setTimeout(function () {
-        flash.fadeTo(1000, 0).slideUp(1000, function () {
-          $(this).remove();
-        });
-      }, 2000);
-    }
-  });
+    $(document).ready(function () {
+        var flash = $('#flash-container');
+        if (flash.length > 0) {
+            window.setTimeout(function () {
+                flash.fadeTo(1000, 0).slideUp(1000, function () {
+                    $(this).remove();
+                });
+            }, 2000);
+        }
+    });
 </script>
 <script>
-  $(document).foundation();
+    $(document).foundation();
 </script>
 
 </body>
