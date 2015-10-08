@@ -7,6 +7,8 @@ require 'dm-migrations'
 require 'bcrypt'
 require 'byebug'
 require './lib/product.rb'
+require './lib/brand.rb'
+require './lib/category.rb'
 
 class Love < Sinatra::Base
   set :views, proc { File.join(root, '..', 'views') }
@@ -17,10 +19,10 @@ class Love < Sinatra::Base
   env = ENV['RACK_ENV'] || "development"
 
   DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost/love_#{env}")
-  DataMapper.auto_upgrade!
-  #DataMapper.auto_migrate!
-  DataMapper::Model.raise_on_save_failure = true
   DataMapper.finalize
+  #DataMapper.auto_upgrade!
+  DataMapper.auto_migrate!
+  DataMapper::Model.raise_on_save_failure = true
 
   helpers do
     def protected!
