@@ -1,5 +1,5 @@
 require 'product'
-require 'byebug'
+require 'pry'
 require 'product_helper_spec'
 
 describe 'GET /api/v1/product_listing' do
@@ -10,9 +10,9 @@ describe 'GET /api/v1/product_listing' do
     create_products
   end
 
-  it "should return all listings" do
-    visit '/api/v1/product_listing as JSON'
-    # byebug
+  it "should return all listings as JSON" do
+    visit '/api/v1/product_listing'
+    # binding.pry
     expect(json.length).to eq(4)
     expect(json.class).to eq(Array)
     expect(json[0].class).to eq(Hash)
