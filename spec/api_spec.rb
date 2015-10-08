@@ -11,7 +11,7 @@ describe 'GET /api/v1/product_listing' do
   end
 
   it "should return all listings" do
-    visit '/api/v1/product_listing'
+    visit '/api/v1/product_listing as JSON'
     # byebug
     expect(json.length).to eq(4)
     expect(json.class).to eq(Array)
