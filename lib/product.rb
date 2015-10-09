@@ -40,6 +40,7 @@ class Product
     brand = Brand.first_or_create(name: @response["VarumarkeTillverkare"])
     cat = Category.first_or_create(name: @response["Produktkod".to_s])
     Product.create(brand: brand, :product_name => @response["Artikelbenamning"], category: cat, :barcode => @response["GTIN"], :sugar_content_gram => @response["Naringsinfo"][0]["Naringsvarden"][5]["Mangd"])
+    Product.update_ranking
   end
 
   #Rankning can be seen as how many Products have suger_content_gram that is lower than current record + 1
