@@ -21,8 +21,8 @@ class Love < Sinatra::Base
 
   DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost/love_#{env}")
   DataMapper.finalize
-  #DataMapper.auto_upgrade!
-  DataMapper.auto_migrate!
+  DataMapper.auto_upgrade!
+  #DataMapper.auto_migrate!
   DataMapper::Model.raise_on_save_failure = true
 
   helpers do

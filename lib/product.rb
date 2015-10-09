@@ -1,5 +1,6 @@
 require 'net/http'
 require "json"
+require 'byebug'
 
 class Product
 
@@ -32,11 +33,14 @@ class Product
   end
 
   def self.import_product(ean)
-    uri = URI('http://api.dabas.com/DABASService/V1/article/gtin/#{ean}/json?apikey=')
+    request_uri = 'http://api.dabas.com/DABASService/V1/article/gtin/'
+    request_query = ean
+    request_end_uri = '/json?apikey='
+    uri = URI("#{request_uri}#{request_query}#{request_end_uri}")
     @response = JSON.parse(Net::HTTP.get(uri))
-    b=Brand.first
-    c=Category.first
-    Product.create(brand: b, :product_name => @response["Artikelbenamning"], category: c, :barcode => @response["GTIN"], :sugar_content_gram => 8.6)
+    brand = Brand.first_or_create(name: @response["VarumarkeTillverkare"])
+    cat = Category.first_or_create(name: @response["Produktkod".to_s])
+    Product.create(brand: brand, :product_name => @response["Artikelbenamning"], category: cat, :barcode => @response["GTIN"], :sugar_content_gram => @response["Naringsinfo"][0]["Naringsvarden"][5]["Mangd"])
   end
 
   #Rankning can be seen as how many Products have suger_content_gram that is lower than current record + 1
