@@ -11,6 +11,7 @@ require './lib/product.rb'
 require './lib/brand.rb'
 require './lib/category.rb'
 
+
 class Love < Sinatra::Base
   set :views, proc { File.join(root, '..', 'views') }
   enable :sessions
@@ -18,6 +19,7 @@ class Love < Sinatra::Base
   set :session_secret, '123321123'
   use Rack::Session::Pool
   env = ENV['RACK_ENV'] || "development"
+
 
   DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost/love_#{env}")
   DataMapper.finalize

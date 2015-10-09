@@ -20,6 +20,5 @@ group :test do
   gem 'coveralls', require: false
   gem 'shotgun'
   gem 'database_cleaner', '~> 1.5.0'
-  gem 'jasmine'
   gem 'pry'
 end
