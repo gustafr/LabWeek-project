@@ -3,6 +3,7 @@ ruby '2.2.3'
 
 gem 'sinatra'
 gem 'sinatra-contrib'
+gem 'sinatra-cross_origin'
 gem 'json'
 gem 'sinatra-flash'
 gem 'bcrypt'

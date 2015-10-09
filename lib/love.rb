@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'sinatra/cross_origin'
 require 'sinatra/json'
 require 'json'
 require 'sinatra/flash'
