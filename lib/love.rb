@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/contrib'
 require 'sinatra/json'
+require 'sinatra/namespace'
 require 'json'
 require 'sinatra/flash'
 require 'data_mapper'
@@ -12,6 +13,7 @@ require './lib/brand.rb'
 require './lib/category.rb'
 
 class Love < Sinatra::Base
+  register Sinatra::Namespace
   set :views, proc { File.join(root, '..', 'views') }
   enable :sessions
   register Sinatra::Flash
@@ -108,15 +110,24 @@ class Love < Sinatra::Base
 
   # API-related code below (example from here http://www.sinatrarb.com/contrib/json.html)
 
-  get '/api/v1' do
-    json :Hey! => 'Joe!'
-  end
+  namespace '/api/v1' do
+    # This route is for testing in browser. Delete it whenever want.
+    get '/' do
+      json :Hey! => 'Joe!'
+    end
 
-  get '/api/v1/product_listing' do
-    @product = Product.all
-    @product.to_json
-  end
+    get '/product_listing' do
+      @product = Product.all
+      @product.to_json
+    end
 
+    get '/product_listing/:id' do
+      # matches "GET /product_listing?barcode=:id"
+      @product = Product.first(:barcode, @params[:barcode])
+      @product.to_json
+      # binding.pry
+    end
+  end
 
   # start the server if ruby file executed directly
   run! if app_file == $0
