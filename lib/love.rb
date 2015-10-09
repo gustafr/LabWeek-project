@@ -13,7 +13,6 @@ require './lib/product.rb'
 require './lib/brand.rb'
 require './lib/category.rb'
 require 'dotenv'
-require './spec/product_helper_spec.rb'
 
 class Love < Sinatra::Base
   register Sinatra::Namespace
@@ -44,8 +43,7 @@ class Love < Sinatra::Base
       @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['love', 'shack']
     end
   end
-  
-  #create_products
+
 
   # Testing the authentication. TODO: Delete this later.
   get '/protected' do
@@ -76,6 +74,22 @@ class Love < Sinatra::Base
       redirect '/admin/product_listing'
     rescue
       redirect 'admin/fill_out'
+    end
+  end
+
+  get '/admin/add_product' do
+    protected!
+    erb :'admin/add_product', layout: :'admin/admin_layout'
+  end
+
+  post '/admin/add_product' do
+    protected!
+    begin
+      barcode = params[:barcode]
+      Product.import_product(params[:barcode])
+      redirect '/admin/product_listing'
+    rescue
+      redirect 'admin/add_product'
     end
   end
 
