@@ -11,6 +11,7 @@ require 'bcrypt'
 require './lib/product.rb'
 require './lib/brand.rb'
 require './lib/category.rb'
+require 'dotenv'
 
 class Love < Sinatra::Base
   register Sinatra::Namespace
@@ -20,11 +21,12 @@ class Love < Sinatra::Base
   set :session_secret, '123321123'
   use Rack::Session::Pool
   env = ENV['RACK_ENV'] || "development"
+  Dotenv.load
 
   DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost/love_#{env}")
   DataMapper.finalize
-  #DataMapper.auto_upgrade!
-  DataMapper.auto_migrate!
+  DataMapper.auto_upgrade!
+  #DataMapper.auto_migrate!
   DataMapper::Model.raise_on_save_failure = true
 
   helpers do
