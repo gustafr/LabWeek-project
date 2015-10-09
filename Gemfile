@@ -12,7 +12,6 @@ gem 'pg'
 
 group :test do
   gem 'capybara'
-  gem 'byebug'
   gem 'rspec'
   gem 'dm-rspec'
   gem 'rspec-sinatra'
@@ -21,6 +20,5 @@ group :test do
   gem 'coveralls', require: false
   gem 'shotgun'
   gem 'database_cleaner', '~> 1.5.0'
-  gem 'jasmine'
   gem 'pry'
 end

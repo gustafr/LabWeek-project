@@ -1,5 +1,5 @@
 require 'product'
-require 'pry'
+#require 'pry'
 require 'product_helper_spec'
 
 describe 'API' do
