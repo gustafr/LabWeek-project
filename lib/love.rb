@@ -8,7 +8,7 @@ require 'sinatra/flash'
 require 'data_mapper'
 require 'dm-migrations'
 require 'bcrypt'
-#require 'pry'
+require 'pry'
 require './lib/product.rb'
 require './lib/brand.rb'
 require './lib/category.rb'
@@ -127,10 +127,11 @@ class Love < Sinatra::Base
       @product.to_json
     end
 
-    get '/product_listing/:id' do
+    get '/product_listing/:barcode' do
       cross_origin
       # matches "GET /product_listing?barcode=:id"
-      @product = Product.first(:barcode, @params[:barcode])
+      binding.pry
+      @product = Product.first(barcode: params[:barcode])
       @product.to_json
       # binding.pry
     end
