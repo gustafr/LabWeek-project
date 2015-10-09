@@ -77,6 +77,22 @@ class Love < Sinatra::Base
     end
   end
 
+  get '/admin/add_product' do
+    protected!
+    erb :'admin/add_product', layout: :'admin/admin_layout'
+  end
+
+  post '/admin/add_product' do
+    protected!
+    begin
+      barcode = params[:barcode]
+      Product.import_product(params[:barcode])
+      redirect '/admin/product_listing'
+    rescue
+      redirect 'admin/add_product'
+    end
+  end
+
   get '/admin/product_listing' do
     #protected!
     @product=Product.all
