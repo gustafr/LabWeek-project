@@ -12,7 +12,6 @@ gem 'pg'
 
 group :test do
   gem 'capybara'
-  gem 'byebug'
   gem 'rspec'
   gem 'dm-rspec'
   gem 'rspec-sinatra'
