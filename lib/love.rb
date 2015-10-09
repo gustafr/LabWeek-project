@@ -130,7 +130,6 @@ class Love < Sinatra::Base
     get '/product_listing/:barcode' do
       cross_origin
       # matches "GET /product_listing?barcode=:id"
-      binding.pry
       @product = Product.first(barcode: params[:barcode])
       @product.to_json
       # binding.pry
