@@ -13,11 +13,13 @@ require './lib/product.rb'
 require './lib/brand.rb'
 require './lib/category.rb'
 require 'dotenv'
+require './spec/product_helper_spec.rb'
 
 class Love < Sinatra::Base
   register Sinatra::Namespace
   set :views, proc { File.join(root, '..', 'views') }
   enable :sessions
+  register Sinatra::CrossOrigin
   register Sinatra::Flash
   set :session_secret, '123321123'
   use Rack::Session::Pool
@@ -42,6 +44,8 @@ class Love < Sinatra::Base
       @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['love', 'shack']
     end
   end
+  
+  #create_products
 
   # Testing the authentication. TODO: Delete this later.
   get '/protected' do
@@ -76,7 +80,7 @@ class Love < Sinatra::Base
   end
 
   get '/admin/product_listing' do
-    protected!
+    #protected!
     @product=Product.all
     erb :'admin/product_listing', layout: :'admin/admin_layout'
   end
