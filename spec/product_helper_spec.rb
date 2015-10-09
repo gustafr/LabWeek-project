@@ -1,4 +1,4 @@
-require 'pry'
+#require 'pry'
 
 def create_products
   b = Brand.create(:name => "Pågen")
