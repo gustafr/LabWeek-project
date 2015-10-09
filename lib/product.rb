@@ -35,7 +35,7 @@ class Product
   def self.import_product(ean)
     request_uri = 'http://api.dabas.com/DABASService/V1/article/gtin/'
     request_query = ean
-    request_end_uri = '/json?apikey='
+    request_end_uri = "/json?apikey=#{ENV['DABAS_API']}"
     uri = URI("#{request_uri}#{request_query}#{request_end_uri}")
     @response = JSON.parse(Net::HTTP.get(uri))
     brand = Brand.first_or_create(name: @response["VarumarkeTillverkare"])
