@@ -13,7 +13,6 @@ require './lib/product.rb'
 require './lib/brand.rb'
 require './lib/category.rb'
 require 'dotenv'
-require './spec/product_helper_spec.rb'
 
 class Love < Sinatra::Base
   register Sinatra::Namespace
@@ -45,7 +44,6 @@ class Love < Sinatra::Base
     end
   end
   
-  #create_products
 
   # Testing the authentication. TODO: Delete this later.
   get '/protected' do
