@@ -34,7 +34,7 @@ describe 'API' do
       expect(json['barcode']).to eq('01212526767679')
     end
 
-    it "should add a new product in the database using dabas api if product doesnt exist in local database " do
+    xit "should add a new product in the database using dabas api if product doesnt exist in local database " do
       visit '/api/v1/product_listing/7314871590007'
       expect(json['barcode']).to eq('07314871590007')
     end
