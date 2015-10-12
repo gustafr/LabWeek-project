@@ -8,7 +8,7 @@ require 'sinatra/flash'
 require 'data_mapper'
 require 'dm-migrations'
 require 'bcrypt'
-#require 'pry'
+# require 'pry'
 require './lib/product.rb'
 require './lib/brand.rb'
 require './lib/category.rb'
@@ -43,7 +43,7 @@ class Love < Sinatra::Base
       @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['love', 'shack']
     end
   end
-  
+
 
   # Testing the authentication. TODO: Delete this later.
   get '/protected' do
@@ -74,6 +74,22 @@ class Love < Sinatra::Base
       redirect '/admin/product_listing'
     rescue
       redirect 'admin/fill_out'
+    end
+  end
+
+  get '/admin/add_product' do
+    protected!
+    erb :'admin/add_product', layout: :'admin/admin_layout'
+  end
+
+  post '/admin/add_product' do
+    protected!
+    begin
+      barcode = params[:barcode]
+      Product.import_product(params[:barcode])
+      redirect '/admin/product_listing'
+    rescue
+      redirect 'admin/add_product'
     end
   end
 
@@ -129,7 +145,6 @@ class Love < Sinatra::Base
 
     get '/product_listing/:barcode' do
       cross_origin
-      # matches "GET /product_listing?barcode=:id"
       @product = Product.first(barcode: params[:barcode])
       @product.to_json
       # binding.pry
