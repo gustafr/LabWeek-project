@@ -160,6 +160,10 @@ class Love < Sinatra::Base
     end
   end
 
+  get '/categories' do
+    "Hello from the 'categories' view!"
+  end
+
   # start the server if ruby file executed directly
   run! if app_file == $0
 end
