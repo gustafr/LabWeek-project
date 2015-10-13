@@ -14,8 +14,9 @@ feature 'Web View' do
   scenario "visitors to the 'categories' route see what categories are in our database" do
 
     visit '/categories'
-    @categories = Category.all
+    # @category = Category.all
     # binding.pry
+    expect(page).to have_content 'Categories'
     expect(page).to have_content 'Bröd'
 
   end
