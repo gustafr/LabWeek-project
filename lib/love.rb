@@ -13,6 +13,7 @@ require './lib/product.rb'
 require './lib/brand.rb'
 require './lib/category.rb'
 require 'dotenv'
+require 'active_support/all'
 
 class Love < Sinatra::Base
   register Sinatra::Namespace
