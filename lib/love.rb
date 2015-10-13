@@ -46,8 +46,7 @@ class Love < Sinatra::Base
     end
   end
 
-
-  # Testing the authentication. TODO: Delete this later.
+  # Testing the authentication. Can delete this later (if want to refactor tests)
   get '/protected' do
     protected!
     "You're in, baby!"
@@ -159,6 +158,12 @@ class Love < Sinatra::Base
     cross_origin
     @category = Category.all
     erb :'web/categories'
+  end
+
+  get '/product/:barcode' do
+    cross_origin
+    @product = Product.first(barcode: params[:barcode])
+    erb :'web/product'
   end
 
   # start the server if ruby file executed directly
