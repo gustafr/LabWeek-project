@@ -161,7 +161,8 @@ class Love < Sinatra::Base
   end
 
   get '/categories' do
-    # @product=Product.all
+    cross_origin
+    @category = Category.all
     erb :'web/categories'
   end
 
