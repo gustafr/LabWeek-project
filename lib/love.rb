@@ -161,7 +161,8 @@ class Love < Sinatra::Base
   end
 
   get '/categories' do
-    "Hello from the 'categories' view!"
+    # @product=Product.all
+    erb :'web/categories'
   end
 
   # start the server if ruby file executed directly
