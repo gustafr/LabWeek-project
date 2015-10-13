@@ -48,7 +48,7 @@ class Product
     @response = JSON.parse(Net::HTTP.get(uri))
     brand = Brand.first_or_create(name: @response["VarumarkeTillverkare"])
     cat = Category.first_or_create(name: @response["Produktkod".to_s])
-    Product.create(brand: brand, :product_name => @response["Artikelbenamning"], category: cat, :barcode => @response["GTIN"], :sugar_content_gram => @response["Naringsinfo"][0]["Naringsvarden"][5]["Mangd"])
+    Product.create(brand: brand, product_name: @response["Artikelbenamning"], category: cat, barcode: @response["GTIN"], sugar_content_gram: @response["Naringsinfo"][0]["Naringsvarden"][5]["Mangd"], image_url: @response["Bilder"][0]["Lank"])
     Product.update_ranking
   end
 
