@@ -26,4 +26,11 @@ feature 'Web View' do
       expect(page).to have_content 'Lingongrova'
     end
   end
+
+  context 'Product Image' do
+   xit scenario "visitors to the 'product/:barcode' route see the product image (if it's in our DB)" do
+      visit '/product/1256256256526'
+      # TODO: Insert expectation here!
+    end
+  end
 end
