@@ -12,6 +12,7 @@ require 'bcrypt'
 require './lib/product.rb'
 require './lib/brand.rb'
 require './lib/category.rb'
+require './lib/users.rb'
 require 'dotenv'
 
 class Love < Sinatra::Base
@@ -44,6 +45,52 @@ class Love < Sinatra::Base
     end
   end
 
+
+
+  get '/join' do
+    erb :join
+  end
+
+  post '/join' do
+    if (params[:name] == '') || (params[:email] == '') || (params[:user_name] == '') || (params[:password] == '') || (params[:password_confirm] == '')
+      flash[:warning] = "Some data is missing, please try again."
+      redirect '/join'
+    else
+      new_user = User.new
+      new_user.name = params[:name]
+      new_user.user_name = params[:user_name]
+      new_user.email = params[:email]
+      new_user.password = params[:password]
+      new_user.password_confirm = params[:password_confirm]
+      new_user.save
+      redirect '/'
+    end
+  end
+
+  get '/sign_in' do
+    erb :sign_in
+  end
+
+  post '/sign_in' do
+    if ((params[:email] == '') || (params[:password] == ''))
+      flash[:warning] = "You must have missed a field.  Please try again."
+      redirect '/sign_in'
+
+    else
+
+      begin
+        email = params[:email]
+        password = params[:password]
+        @user = User.authenticate(email, password)
+        session[:user_id] = @user.id
+        flash[:notice] = "Welcome #{@user.name}!"
+        redirect '/'
+      rescue
+        flash[:warning] = "Some data is invalid.  Please try again."
+        redirect "/sign_in"
+      end
+    end
+  end
 
   # Testing the authentication. TODO: Delete this later.
   get '/protected' do
@@ -129,6 +176,12 @@ class Love < Sinatra::Base
     rescue
       redirect '/admin/update_product/:id'
     end
+  end
+
+  get '/sign_out' do
+    session[:user_id] = nil
+    flash[:notice] = "Thanks for visiting, hope to see you soon again!"
+    redirect '/'
   end
 
   # API-related code below (example from here http://www.sinatrarb.com/contrib/json.html)
