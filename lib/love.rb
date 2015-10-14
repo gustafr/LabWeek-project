@@ -160,10 +160,22 @@ class Love < Sinatra::Base
     erb :'web/categories'
   end
 
+  get '/category/:category_id' do
+    cross_origin
+    # TODO: Code goes here.
+    erb :'web/category'
+  end
+
   get '/product/:barcode' do
     cross_origin
     @product = Product.first(barcode: params[:barcode])
     erb :'web/product'
+  end
+
+  get '/search' do
+    cross_origin
+    # TODO: Code goes here
+    erb :'web/search'
   end
 
   # start the server if ruby file executed directly
