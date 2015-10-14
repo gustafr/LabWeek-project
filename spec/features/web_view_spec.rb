@@ -12,10 +12,17 @@ feature 'Web View' do
   end
 
   context 'Categories' do
-    scenario "visitors to the 'categories' route see the categories in our database" do
+    scenario "visitors to the 'categories' route see a list of the categories in our database" do
       visit '/categories'
       expect(page).to have_content 'Categories'
       expect(page).to have_content 'Bröd'
+    end
+  end
+
+  context 'Search' do
+    xit scenario "visitors to the 'category' route see the products in an individual category in our database" do
+      visit '/category' # TODO: Create route and code
+      # TODO: Insert expectation here!
     end
   end
 
@@ -33,4 +40,12 @@ feature 'Web View' do
       # TODO: Insert expectation here!
     end
   end
+
+  context 'Search' do
+    xit scenario "visitors to the 'search' route can search for, and find, products" do
+      visit '/search' # TODO: Create route and code
+      # TODO: Insert expectation here!
+    end
+  end
+
 end
