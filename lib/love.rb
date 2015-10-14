@@ -93,6 +93,7 @@ class Love < Sinatra::Base
   end
 
   # Testing the authentication. TODO: Delete this later.
+  # Testing the authentication. Can delete this later (if want to refactor tests)
   get '/protected' do
     protected!
     "You're in, baby!"
@@ -187,10 +188,6 @@ class Love < Sinatra::Base
   # API-related code below (example from here http://www.sinatrarb.com/contrib/json.html)
 
   namespace '/api/v1' do
-    # This route is for testing in browser. Delete it whenever want.
-    get '/' do
-      json :Hey! => 'Joe!'
-    end
 
     get '/product_listing' do
       cross_origin
@@ -201,18 +198,29 @@ class Love < Sinatra::Base
     get '/product_listing/:barcode' do
       cross_origin
       barcode = Product.dabas_barcode(params[:barcode])
-      if Product.first(barcode: barcode).nil?
+      if Product.find_product(barcode).nil?
         Product.import_product(barcode)
-        @product = Product.first(barcode: barcode)
-        @product.to_json
+        Product.api_product_to_json(barcode)
       else
-        @product = Product.first(barcode: barcode)
-        @product.to_json
+        Product.api_product_to_json(barcode)
       end
-
     end
+  end
+
+  get '/categories' do
+    cross_origin
+    @category = Category.all
+    erb :'web/categories'
+  end
+
+  get '/product/:barcode' do
+    cross_origin
+    @product = Product.first(barcode: params[:barcode])
+    erb :'web/product'
   end
 
   # start the server if ruby file executed directly
   run! if app_file == $0
+
 end
+
