@@ -3,7 +3,10 @@ class Category
   include DataMapper::Resource
 
   property :id, Serial
+  property :category_id, Integer
   property :name, String
+  property :is_parent, Boolean
+  property :parent_id, Integer
 
   has n, :products, through: Resource
 

@@ -11,6 +11,7 @@ class Product
   property :sugar_content_gram, Float
   property :ranking, Integer
   property :image_url, Text
+  property :dabas_category, String
 
   belongs_to :brand
   belongs_to :category
@@ -49,8 +50,14 @@ class Product
     brand = Brand.first_or_create(name: @response["VarumarkeTillverkare"])
     cat = Category.first_or_create(name: @response["Produktkod".to_s])
     img = Product.image_url(@response)
-    Product.create(brand: brand, product_name: @response["Artikelbenamning"], category: cat, barcode: @response["GTIN"], sugar_content_gram: @response["Naringsinfo"][0]["Naringsvarden"][5]["Mangd"], image_url: img)
+    Product.create(brand: brand, product_name: @response["Artikelbenamning"], barcode: @response["GTIN"], sugar_content_gram: @response["Naringsinfo"][0]["Naringsvarden"][5]["Mangd"], image_url: img)
+    #Product.set_category(@response)
     Product.update_ranking
+  end
+  #WIP - create a method that takes the dabas category number and depending on result return the commersial categorie to use.
+  def self.set_category(product)
+    arr = @response["Produktkod".to_s]
+
   end
 
   def self.image_url(product)

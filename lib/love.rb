@@ -14,6 +14,7 @@ require './lib/brand.rb'
 require './lib/category.rb'
 require './lib/users.rb'
 require 'dotenv'
+require './lib/csv_import.rb'
 
 class Love < Sinatra::Base
   register Sinatra::Namespace
@@ -44,8 +45,6 @@ class Love < Sinatra::Base
       @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['love', 'shack']
     end
   end
-
-
 
   get '/join' do
     erb :join
@@ -235,4 +234,3 @@ class Love < Sinatra::Base
   run! if app_file == $0
 
 end
-
