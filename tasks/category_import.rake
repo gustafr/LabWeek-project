@@ -1,8 +1,10 @@
 namespace :setup do
-  require './lib/csv_import.rb’
+  require './lib/love.rb'
+  require './lib/csv_import.rb'
 
-  desc 'Import categories to db '
+  desc 'Import categories to db'
   task :category_import do
-    CSVImport.import_with_headers(’./import/bread.csv', 'Category')
+    CSVImport.import_with_headers('./import/bread.csv', 'Category')
+  end
 end
-end
+
