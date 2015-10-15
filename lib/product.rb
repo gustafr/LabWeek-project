@@ -47,17 +47,28 @@ class Product
     request_end_uri = "/json?apikey=#{ENV['DABAS_API']}"
     uri = URI("#{request_uri}#{request_query}#{request_end_uri}")
     @response = JSON.parse(Net::HTTP.get(uri))
-    brand = Brand.first_or_create(name: @response["VarumarkeTillverkare"])
-    cat = Category.first_or_create(name: @response["Produktkod".to_s])
     img = Product.image_url(@response)
-    Product.create(brand: brand, product_name: @response["Artikelbenamning"], barcode: @response["GTIN"], sugar_content_gram: @response["Naringsinfo"][0]["Naringsvarden"][5]["Mangd"], image_url: img)
-    #Product.set_category(@response)
+    dabas = Product.truncate_dabasid(@response)
+    brand = Brand.first_or_create(name: @response["VarumarkeTillverkare"])
+    cat = Product.set_category(dabas)
+    Product.create(product_name: @response["Artikelbenamning"],
+                   barcode: @response["GTIN"],
+                   sugar_content_gram: @response["Naringsinfo"][0]["Naringsvarden"][5]["Mangd"],
+                   image_url: img,
+                   dabas_category: dabas,
+                   brand: brand,
+                   category: cat)
     Product.update_ranking
   end
-  #WIP - create a method that takes the dabas category number and depending on result return the commersial categorie to use.
-  def self.set_category(product)
-    arr = @response["Produktkod".to_s]
 
+  def self.set_category(dabasid)
+    catkey = Dabasid.first(name: dabasid).category_id
+    @cat = Category.first(id: catkey)
+  end
+
+  def self.truncate_dabasid(product)
+    longid = product["Produktkod".to_s]
+    shortid = longid[0,4]
   end
 
   def self.image_url(product)

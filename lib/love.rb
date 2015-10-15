@@ -13,6 +13,7 @@ require './lib/product.rb'
 require './lib/brand.rb'
 require './lib/category.rb'
 require './lib/users.rb'
+require './lib/dabas_id.rb'
 require 'dotenv'
 require './lib/csv_import.rb'
 
