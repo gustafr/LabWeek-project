@@ -34,7 +34,12 @@ module CSVImport
 
   def self.create_instance(obj, dataset)
     dataset.each do |data|
-      obj.constantize.create(category_id: data[:category_id], name: data[:name], is_parent: data[:is_parent], parent_id: data[:parent_id])
+      begin
+        instance = obj.constantize.create(category_id: data[:category_id], name: data[:name], is_parent: data[:is_parent], parent_id: data[:parent_id])
+        puts "Created #{instance.name}"
+      rescue
+        puts "Could not save Category #{data[:name]}"
+      end
     end
   end
 end
