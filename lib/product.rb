@@ -19,16 +19,11 @@ class Product
   validates_presence_of :product_name, message: "Please fill in a name."
   validates_presence_of :barcode, message: "Please fill in barcode."
   validates_uniqueness_of :barcode, message: "Barcode already exists."
-  #validates_presence_of :sugar_content_gram, message: "Please fill in sugar content."
+  validates_presence_of :sugar_content_gram, message: "Please fill in sugar content."
 
-  def self.rank(product)
-    result = all(:sugar_content_gram.lt => product.sugar_content_gram).count+1
-    product.update!(ranking: result)
-  end
-
-  def self.update_ranking
-    Product.all.each do |product|
-      result = all(:sugar_content_gram.lt => product.sugar_content_gram).count+1
+  def self.update_ranking(category)
+    Product.all(category: category).each do |product|
+      result = all(category: category, :sugar_content_gram.lt => product.sugar_content_gram).count+1
       product.update!(ranking: result)
     end
   end
@@ -58,7 +53,7 @@ class Product
                    dabas_category: dabas,
                    brand: brand,
                    category: cat)
-    Product.update_ranking
+    Product.update_ranking(cat)
   end
 
   def self.set_category(dabasid)
@@ -68,7 +63,7 @@ class Product
 
   def self.truncate_dabasid(product)
     longid = product["Produktkod".to_s]
-    shortid = longid[0,4]
+    shortid = longid[0, 4]
   end
 
   def self.image_url(product)
