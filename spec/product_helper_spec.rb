@@ -16,8 +16,12 @@ def create_brand
 end
 
 def create_category
-  c = Category.create(:name => "Bröd")
-  c2 = Category.create(:name => "Mejeri")
+  c = Category.create(name: "Bröd", is_parent: true, parent_id: nil)
+  c2 = Category.create(name: "Mejeri", is_parent: false, parent_id: 1)
+end
+
+def dabas_id
+  d = Dabasid.create(:name => "3077")
 end
 
 def add_product_web
