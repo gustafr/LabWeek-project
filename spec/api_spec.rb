@@ -1,6 +1,8 @@
 require 'product'
 #require 'pry'
 require 'product_helper_spec'
+require 'spec_helper'
+require './spec/support/fake_dabas.rb'
 
 describe 'API' do
 
@@ -34,9 +36,12 @@ describe 'API' do
       expect(json['barcode']).to eq('01212526767679')
     end
 
-    xit "should add a new product in the database using dabas api if product doesnt exist in local database " do
-      visit '/api/v1/product_listing/7314871590007'
-      expect(json['barcode']).to eq('07314871590007')
+    xit 'queries Dabas API for product information' do
+      uri = URI("http://api.dabas.com/DABASService/V1/article/gtin/07311070330090/json?apikey=#{ENV['DABAS_API']}")
+
+      response = JSON.load(Net::HTTP.get(uri))
+
+      expect(response["Artikelbenamning"]).to eq 'Energi'
     end
 
   end

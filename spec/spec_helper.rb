@@ -5,11 +5,13 @@ require File.join(File.dirname(__FILE__), '..', 'lib/love.rb')
 require 'capybara'
 require 'capybara/rspec'
 require 'rspec'
+require 'webmock/rspec'
 require 'coveralls'
 require 'simplecov'
 require 'dm-rspec'
 require 'database_cleaner'
 
+WebMock.disable_net_connect!(allow_localhost: true)
 
 SimpleCov.formatters = [
     SimpleCov::Formatter::HTMLFormatter,
@@ -26,6 +28,9 @@ RSpec.configure do |config|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
+  config.before(:each) do
+    stub_request(:any, /api.dabas.com/).to_rack(FakeDabas)
+  end
 
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true

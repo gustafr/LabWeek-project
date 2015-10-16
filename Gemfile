@@ -24,4 +24,5 @@ group :development, :test do
   gem 'shotgun'
   gem 'database_cleaner', '~> 1.5.0'
   gem 'pry'
+  gem 'webmock'
 end
